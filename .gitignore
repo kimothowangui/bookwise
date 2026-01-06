@@ -35,3 +35,7 @@ next-env.d.ts
 
 # temporary files
 tmp_rovodev_*
+
+# local secrets
+# never commit plain-text tokens
+/token.txt
