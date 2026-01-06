@@ -3,7 +3,6 @@ import Script from 'next/script'
 import './globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import { Analytics } from '@vercel/analytics/react'
 export const metadata: Metadata = {
   title: 'BookWise - Discover Your Next Favorite Book',
   description: 'Join thousands of readers discovering, reviewing, and discussing books. Find honest reviews, engage in thoughtful conversations, and discover your next great read.',
@@ -67,8 +66,6 @@ export default function RootLayout({
           <Footer />
         </div>
 
-        {/* Vercel Web Analytics */}
-        <Analytics />
       </body>
     </html>
   )
