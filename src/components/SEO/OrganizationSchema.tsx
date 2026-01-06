@@ -6,8 +6,8 @@ export default function OrganizationSchema() {
     "@type": "Organization",
     "name": "BookWise",
     "description": "A community of passionate readers discovering, reviewing, and discussing books.",
-    "url": "https://bookwise.com",
-    "logo": "https://bookwise.com/logo.png",
+    "url": "https://bookwise-wine.vercel.app",
+    "logo": "https://bookwise-wine.vercel.app/logo.png",
     "sameAs": [
       "https://twitter.com/bookwise",
       "https://facebook.com/bookwise",

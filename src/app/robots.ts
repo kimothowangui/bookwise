@@ -10,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/admin/', '/private/'],
       },
     ],
-    sitemap: 'https://bookwise.com/sitemap.xml',
+    sitemap: 'https://bookwise-wine.vercel.app/sitemap.xml',
   }
 }

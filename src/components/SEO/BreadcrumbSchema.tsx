@@ -17,7 +17,7 @@ export default function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
       "@type": "ListItem",
       "position": index + 1,
       "name": item.name,
-      "item": `https://bookwise.com${item.url}`
+      "item": `https://bookwise-wine.vercel.app${item.url}`
     }))
   }
 

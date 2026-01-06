@@ -4,7 +4,7 @@ import { sampleBooks } from '@/data/sampleBooks'
 import { sampleDiscussions } from '@/data/sampleDiscussions'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://bookwise.com'
+  const baseUrl = 'https://bookwise-wine.vercel.app'
 
   // Static pages
   const staticPages = [

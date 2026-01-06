@@ -23,7 +23,7 @@ export default function SEOHead({
   publishedTime,
   modifiedTime
 }: SEOHeadProps) {
-  const baseUrl = 'https://bookwise.com' // Replace with actual domain
+  const baseUrl = 'https://bookwise-wine.vercel.app'
   const fullTitle = title.includes('BookWise') ? title : `${title} | BookWise`
   
   return (
