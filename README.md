@@ -1,5 +1,8 @@
 # BookWise - Modern Book Review & Discussion Platform
 
+[![Production](https://img.shields.io/badge/Live-bookwise--wine.vercel.app-success)](https://bookwise-wine.vercel.app)
+
+
 ![BookWise](https://images.unsplash.com/photo-1512820790803-83ca734da794?w=1200&h=400&fit=crop)
 
 A modern, welcoming, SEO-optimized book review and discussion website designed to help readers discover their next favorite book through high-quality reviews, community discussions, and persuasive content.
