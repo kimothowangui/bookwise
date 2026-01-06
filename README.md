@@ -302,3 +302,5 @@ Built with modern web development best practices, focusing on:
 
 **Built with ❤️ for readers and book lovers everywhere.**
 "# bookwise" 
+
+_Deployment touch: 
