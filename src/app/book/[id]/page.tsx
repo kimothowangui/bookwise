@@ -3,6 +3,7 @@ import BookHeader from '@/components/book/BookHeader'
 import BookReviewSection from '@/components/book/BookReviewSection'
 import UserReviews from '@/components/book/UserReviews'
 import BookSchema from '@/components/book/BookSchema'
+import WriteReviewPrompt from '@/components/book/WriteReviewPrompt'
 import { sampleBooks, sampleReviews } from '@/data/sampleBooks'
 
 // Generate metadata for SEO
@@ -54,6 +55,11 @@ export default function BookPage({ params }: { params: { id: string } }) {
       
       {/* Detailed Review Section */}
       <BookReviewSection book={book} />
+      
+      {/* Write Review Prompt (with auth guard) */}
+      <div className="container mx-auto px-4 py-8">
+        <WriteReviewPrompt bookTitle={book.title} bookId={book.id} />
+      </div>
       
       {/* User Reviews */}
       <UserReviews reviews={bookReviews} />

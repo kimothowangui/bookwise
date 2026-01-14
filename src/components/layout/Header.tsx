@@ -2,10 +2,13 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { FaBook, FaSearch, FaUser, FaBars, FaTimes, FaComments } from 'react-icons/fa'
+import { useSession, signOut } from 'next-auth/react'
+import { FaBook, FaSearch, FaUser, FaBars, FaTimes, FaComments, FaSignOutAlt } from 'react-icons/fa'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { data: session, status } = useSession()
+  const isAuthenticated = status === 'authenticated'
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -48,13 +51,40 @@ export default function Header() {
               <span className="hidden xl:inline">Search Books</span>
             </Link>
             
-            <Link 
-              href="/profile" 
-              className="flex items-center gap-2 text-primary-700 hover:text-primary-900 transition-colors"
-            >
-              <FaUser className="text-xl" />
-              <span className="hidden xl:inline">My Profile</span>
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link 
+                  href="/profile" 
+                  className="hidden md:flex items-center gap-2 text-primary-700 hover:text-primary-900 transition-colors"
+                >
+                  <FaUser className="text-xl" />
+                  <span className="hidden xl:inline">{session.user?.name || 'My Profile'}</span>
+                </Link>
+                <button
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                  className="hidden md:flex items-center gap-2 text-primary-600 hover:text-primary-800 transition-colors"
+                  aria-label="Sign out"
+                >
+                  <FaSignOutAlt className="text-xl" />
+                  <span className="hidden xl:inline">Sign Out</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <Link 
+                  href="/auth/signin" 
+                  className="hidden md:flex items-center gap-2 text-primary-700 hover:text-primary-900 font-medium transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link 
+                  href="/auth/signup" 
+                  className="hidden md:flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
 
             {/* Mobile Menu Toggle */}
             <button
@@ -106,6 +136,47 @@ export default function Header() {
               >
                 Blog
               </Link>
+              
+              {/* Mobile Auth Buttons */}
+              <div className="border-t border-primary-200 pt-4 mt-4">
+                {isAuthenticated ? (
+                  <>
+                    <Link 
+                      href="/profile" 
+                      className="flex items-center gap-2 text-primary-700 hover:text-primary-900 font-medium mb-3"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <FaUser /> {session.user?.name || 'My Profile'}
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false)
+                        signOut({ callbackUrl: '/' })
+                      }}
+                      className="flex items-center gap-2 text-primary-600 hover:text-primary-800 font-medium w-full"
+                    >
+                      <FaSignOutAlt /> Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link 
+                      href="/auth/signin" 
+                      className="block text-center bg-primary-100 hover:bg-primary-200 text-primary-700 px-4 py-2 rounded-lg font-medium mb-2 transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Sign In
+                    </Link>
+                    <Link 
+                      href="/auth/signup" 
+                      className="block text-center bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Sign Up Free
+                    </Link>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         )}
