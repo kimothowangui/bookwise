@@ -1,269 +1,241 @@
-import { Metadata } from 'next'
-import Link from 'next/link'
-import { FaBook, FaStar, FaComments, FaEdit, FaHeart, FaClock } from 'react-icons/fa'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'My Profile - BookWise',
-  description: 'Manage your reading list, reviews, and discussions on BookWise.',
-}
+import Link from 'next/link'
+import { FaBook, FaStar, FaComments, FaEdit, FaHeart, FaClock, FaGlobe, FaTwitter } from 'react-icons/fa'
+import { SiGoodreads } from 'react-icons/si'
+import { useProfile } from '@/contexts/ProfileContext'
+import EditProfile from '@/components/profile/EditProfile'
 
 export default function ProfilePage() {
-  // Mock user data
-  const user = {
-    name: 'Sarah Mitchell',
-    email: 'sarah.mitchell@email.com',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200',
-    bio: 'Passionate reader with a love for psychological thrillers and literary fiction. Always looking for my next great read!',
-    favoriteGenres: ['Mystery', 'Thriller', 'Literary Fiction', 'Memoir'],
-    booksRead: 127,
-    reviewsWritten: 34,
-    joinedDate: 'January 2023',
-    stats: {
-      averageRating: 4.2,
-      discussionReplies: 156,
-      helpfulVotes: 342
-    }
+  const { profile, isEditing, setIsEditing } = useProfile()
+
+  if (isEditing) {
+    return <EditProfile />
   }
 
-  const readingList = [
-    { id: '1', title: 'The Midnight Library', author: 'Matt Haig', status: 'reading', progress: 65 },
-    { id: '2', title: 'Atomic Habits', author: 'James Clear', status: 'want-to-read' },
-    { id: '3', title: 'The Silent Patient', author: 'Alex Michaelides', status: 'completed', rating: 5 },
-  ]
-
-  const recentReviews = [
-    { 
-      id: 'r1', 
-      bookTitle: 'The Midnight Library', 
-      rating: 5, 
-      excerpt: 'A beautiful meditation on life and choices...',
-      date: '2 days ago',
-      helpful: 23
+  // Mock activity data
+  const recentActivity = [
+    {
+      type: 'review',
+      book: 'The Midnight Library',
+      action: 'wrote a review',
+      time: '2 days ago',
+      icon: FaStar
     },
-    { 
-      id: 'r2', 
-      bookTitle: 'Educated', 
-      rating: 5, 
-      excerpt: 'An incredibly powerful and inspiring memoir...',
-      date: '1 week ago',
-      helpful: 45
+    {
+      type: 'discussion',
+      topic: 'Best Books of 2024',
+      action: 'started a discussion',
+      time: '5 days ago',
+      icon: FaComments
     },
+    {
+      type: 'like',
+      book: 'Atomic Habits',
+      action: 'liked a review',
+      time: '1 week ago',
+      icon: FaHeart
+    }
   ]
 
   return (
-    <div className="bg-primary-50 min-h-screen">
-      {/* Profile Header */}
-      <section className="bg-gradient-to-r from-primary-600 to-primary-700 text-white py-12">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-white">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center gap-6">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            {/* Profile Picture */}
             <img
-              src={user.avatar}
-              alt={user.name}
-              className="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
+              src={profile.avatar}
+              alt={profile.name}
+              className="w-32 h-32 rounded-full border-4 border-white shadow-xl object-cover"
+              onError={(e) => {
+                e.currentTarget.src = 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400'
+              }}
             />
-            <div className="text-center md:text-left flex-grow">
-              <h1 className="text-4xl font-bold mb-2">{user.name}</h1>
-              <p className="text-primary-100 mb-4">{user.bio}</p>
-              <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                {user.favoriteGenres.map((genre) => (
-                  <span key={genre} className="bg-primary-800 text-white px-3 py-1 rounded-full text-sm">
+            
+            {/* Profile Info */}
+            <div className="flex-1 text-center md:text-left">
+              <h1 className="text-4xl font-bold mb-2">{profile.name}</h1>
+              <p className="text-xl opacity-90 mb-4">@{profile.username}</p>
+              <p className="text-lg opacity-90 max-w-2xl">{profile.bio}</p>
+              
+              {/* Social Links */}
+              {(profile.website || profile.goodreadsUrl || profile.twitterUrl) && (
+                <div className="flex gap-4 mt-4 justify-center md:justify-start">
+                  {profile.website && (
+                    <a
+                      href={profile.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors"
+                    >
+                      <FaGlobe />
+                      Website
+                    </a>
+                  )}
+                  {profile.goodreadsUrl && (
+                    <a
+                      href={profile.goodreadsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors"
+                    >
+                      <SiGoodreads />
+                      Goodreads
+                    </a>
+                  )}
+                  {profile.twitterUrl && (
+                    <a
+                      href={profile.twitterUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors"
+                    >
+                      <FaTwitter />
+                      Twitter
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Edit Button */}
+            <button
+              onClick={() => setIsEditing(true)}
+              className="bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-all shadow-lg flex items-center gap-2"
+            >
+              <FaEdit />
+              Edit Profile
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="container mx-auto px-4 -mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+            <FaBook className="text-primary-600 text-3xl mx-auto mb-3" />
+            <div className="text-3xl font-bold text-gray-900">{profile.booksRead}</div>
+            <div className="text-gray-600">Books Read</div>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+            <FaStar className="text-yellow-500 text-3xl mx-auto mb-3" />
+            <div className="text-3xl font-bold text-gray-900">{profile.reviewsWritten}</div>
+            <div className="text-gray-600">Reviews Written</div>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+            <FaComments className="text-green-600 text-3xl mx-auto mb-3" />
+            <div className="text-3xl font-bold text-gray-900">{profile.discussionsStarted}</div>
+            <div className="text-gray-600">Discussions</div>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+            <FaClock className="text-purple-600 text-3xl mx-auto mb-3" />
+            <div className="text-3xl font-bold text-gray-900">{profile.readingGoal}</div>
+            <div className="text-gray-600">Reading Goal</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Left Column */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* About Section */}
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">About</h2>
+              <div className="space-y-3 text-gray-700">
+                <div className="flex items-center gap-3">
+                  <FaClock className="text-primary-600" />
+                  <span>Website created {profile.joinedDate}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Favorite Genres */}
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Favorite Genres</h2>
+              <div className="flex flex-wrap gap-2">
+                {profile.favoriteGenres.map((genre) => (
+                  <span
+                    key={genre}
+                    className="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm font-medium"
+                  >
                     {genre}
                   </span>
                 ))}
               </div>
             </div>
-            <button className="btn-secondary bg-white hover:bg-primary-50 flex items-center gap-2">
-              <FaEdit />
-              Edit Profile
-            </button>
-          </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            <div className="bg-primary-800 bg-opacity-50 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold">{user.booksRead}</div>
-              <div className="text-sm text-primary-200">Books Read</div>
-            </div>
-            <div className="bg-primary-800 bg-opacity-50 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold">{user.reviewsWritten}</div>
-              <div className="text-sm text-primary-200">Reviews Written</div>
-            </div>
-            <div className="bg-primary-800 bg-opacity-50 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold">{user.stats.discussionReplies}</div>
-              <div className="text-sm text-primary-200">Discussion Replies</div>
-            </div>
-            <div className="bg-primary-800 bg-opacity-50 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold">{user.stats.helpfulVotes}</div>
-              <div className="text-sm text-primary-200">Helpful Votes</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Column */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Reading List */}
-            <section className="card p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-primary-900 flex items-center gap-2">
-                  <FaBook />
-                  My Reading List
-                </h2>
-                <Link href="/profile/reading-list" className="text-accent-600 hover:text-accent-700 font-medium">
-                  View All →
-                </Link>
+            {/* Reading Goal Progress */}
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">2024 Reading Goal</h2>
+              <div className="text-center">
+                <div className="text-4xl font-bold text-primary-600 mb-2">
+                  {profile.booksRead} / {profile.readingGoal}
+                </div>
+                <div className="text-gray-600 mb-4">books read</div>
+                <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div
+                    className="bg-primary-600 h-3 rounded-full transition-all"
+                    style={{ width: `${Math.min((profile.booksRead / profile.readingGoal) * 100, 100)}%` }}
+                  ></div>
+                </div>
+                <div className="text-sm text-gray-600 mt-2">
+                  {Math.round((profile.booksRead / profile.readingGoal) * 100)}% Complete
+                </div>
               </div>
+            </div>
+          </div>
 
-              <div className="space-y-4">
-                {readingList.map((book) => (
-                  <div key={book.id} className="flex items-center gap-4 pb-4 border-b border-primary-200 last:border-0">
-                    <div className="w-16 h-24 bg-primary-200 rounded flex-shrink-0"></div>
-                    <div className="flex-grow">
-                      <h3 className="font-bold text-primary-900 mb-1">{book.title}</h3>
-                      <p className="text-sm text-primary-600 mb-2">by {book.author}</p>
-                      
-                      {book.status === 'reading' && book.progress && (
-                        <div className="mb-2">
-                          <div className="flex items-center justify-between text-xs text-primary-600 mb-1">
-                            <span>Progress</span>
-                            <span>{book.progress}%</span>
-                          </div>
-                          <div className="w-full bg-primary-200 rounded-full h-2">
-                            <div 
-                              className="bg-accent-600 h-2 rounded-full" 
-                              style={{ width: `${book.progress}%` }}
-                            ></div>
-                          </div>
+          {/* Right Column - Activity Feed */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Activity</h2>
+              
+              <div className="space-y-6">
+                {recentActivity.map((activity, index) => {
+                  const Icon = activity.icon
+                  return (
+                    <div key={index} className="flex gap-4 pb-6 border-b border-gray-100 last:border-0">
+                      <div className="flex-shrink-0">
+                        <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
+                          <Icon className="text-primary-600" />
                         </div>
-                      )}
-
-                      <div className="flex items-center gap-2">
-                        <span className={`text-xs px-3 py-1 rounded-full ${
-                          book.status === 'reading' ? 'bg-blue-100 text-blue-700' :
-                          book.status === 'completed' ? 'bg-green-100 text-green-700' :
-                          'bg-orange-100 text-orange-700'
-                        }`}>
-                          {book.status === 'reading' ? 'Currently Reading' :
-                           book.status === 'completed' ? 'Completed' :
-                           'Want to Read'}
-                        </span>
-                        {book.rating && (
-                          <div className="flex items-center gap-1 text-sm">
-                            <FaStar className="text-warm-500" />
-                            <span className="font-bold">{book.rating}</span>
-                          </div>
-                        )}
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-gray-900">
+                          <span className="font-semibold">{profile.name}</span>
+                          {' '}{activity.action}{' '}
+                          {activity.book && (
+                            <span className="font-semibold text-primary-600">{activity.book}</span>
+                          )}
+                          {activity.topic && (
+                            <span className="font-semibold text-primary-600">{activity.topic}</span>
+                          )}
+                        </p>
+                        <p className="text-sm text-gray-500 mt-1">{activity.time}</p>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Recent Reviews */}
-            <section className="card p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-primary-900 flex items-center gap-2">
-                  <FaStar />
-                  My Recent Reviews
-                </h2>
-                <Link href="/profile/reviews" className="text-accent-600 hover:text-accent-700 font-medium">
-                  View All →
-                </Link>
+                  )
+                })}
               </div>
 
-              <div className="space-y-4">
-                {recentReviews.map((review) => (
-                  <div key={review.id} className="pb-4 border-b border-primary-200 last:border-0">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-bold text-primary-900">{review.bookTitle}</h3>
-                      <div className="flex items-center gap-1 flex-shrink-0 ml-4">
-                        {Array.from({ length: review.rating }).map((_, i) => (
-                          <FaStar key={i} className="text-warm-500 text-sm" />
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-primary-700 mb-3">{review.excerpt}</p>
-                    <div className="flex items-center gap-4 text-sm text-primary-600">
-                      <span className="flex items-center gap-1">
-                        <FaClock />
-                        {review.date}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <FaHeart />
-                        {review.helpful} found helpful
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
+              {/* Empty State */}
+              {recentActivity.length === 0 && (
+                <div className="text-center py-12">
+                  <FaBook className="text-gray-300 text-6xl mx-auto mb-4" />
+                  <p className="text-gray-500 text-lg">No activity yet</p>
+                  <p className="text-gray-400 mt-2">Start reading and reviewing books to see your activity here!</p>
+                </div>
+              )}
+            </div>
           </div>
-
-          {/* Sidebar */}
-          <aside className="lg:col-span-1 space-y-6">
-            {/* Quick Actions */}
-            <div className="card p-6">
-              <h3 className="font-bold text-primary-900 mb-4">Quick Actions</h3>
-              <div className="space-y-3">
-                <button className="w-full btn-primary text-sm">
-                  Write a Review
-                </button>
-                <button className="w-full btn-secondary text-sm">
-                  Start Discussion
-                </button>
-                <button className="w-full btn-secondary text-sm">
-                  Find Books
-                </button>
-              </div>
-            </div>
-
-            {/* Reading Goal */}
-            <div className="card p-6">
-              <h3 className="font-bold text-primary-900 mb-4">2024 Reading Goal</h3>
-              <div className="text-center mb-4">
-                <div className="text-4xl font-bold text-primary-900 mb-1">127 / 150</div>
-                <div className="text-sm text-primary-600">books read</div>
-              </div>
-              <div className="w-full bg-primary-200 rounded-full h-3 mb-2">
-                <div className="bg-accent-600 h-3 rounded-full" style={{ width: '85%' }}></div>
-              </div>
-              <p className="text-sm text-primary-600 text-center">
-                You're 85% of the way there! 🎉
-              </p>
-            </div>
-
-            {/* Recent Activity */}
-            <div className="card p-6">
-              <h3 className="font-bold text-primary-900 mb-4">Recent Activity</h3>
-              <div className="space-y-3 text-sm">
-                <div className="flex items-start gap-2">
-                  <FaComments className="text-accent-600 mt-1 flex-shrink-0" />
-                  <div>
-                    <p className="text-primary-700">Replied to discussion</p>
-                    <p className="text-xs text-primary-600">2 hours ago</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2">
-                  <FaStar className="text-warm-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <p className="text-primary-700">Reviewed a book</p>
-                    <p className="text-xs text-primary-600">1 day ago</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2">
-                  <FaHeart className="text-red-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <p className="text-primary-700">Added to reading list</p>
-                    <p className="text-xs text-primary-600">3 days ago</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </aside>
         </div>
       </div>
     </div>

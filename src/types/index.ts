@@ -56,6 +56,23 @@ export interface User {
   joinedDate: string
 }
 
+export interface UserProfile {
+  name: string
+  username: string
+  email: string
+  bio: string
+  avatar: string
+  favoriteGenres: string[]
+  readingGoal: number
+  website?: string
+  goodreadsUrl?: string
+  twitterUrl?: string
+  booksRead: number
+  reviewsWritten: number
+  discussionsStarted: number
+  joinedDate: string
+}
+
 export interface BlogPost {
   id: string
   title: string

@@ -1,0 +1,9 @@
+node_modules
+.next
+.env.local
+.env
+*.log
+.DS_Store
+tmp_*
+TEST_RESULTS.md
+scripts/README.md

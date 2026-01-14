@@ -3,6 +3,20 @@ import { Book, Review } from '@/types'
 // Sample book data for demonstration
 export const sampleBooks: Book[] = [
   {
+    id: '9',
+    title: 'Outwitting the Devil: The Secret to Freedom and Success',
+    author: 'Napoleon Hill',
+    coverImage: '/outwitting-the-devil.jpg',
+    rating: 4.6,
+    reviewCount: 25000,
+    genres: ['Self-Help', 'Personal Development', 'Philosophy', 'Psychology'],
+    publishedYear: 2011,
+    description: 'Written as a provocative dialogue between the author and the Devil, this book explores how fear, doubt, and social conditioning prevent people from achieving freedom and success. Napoleon Hill challenges readers to confront "drifting," reclaim independent thought, and take control of their minds in order to live with purpose and clarity.',
+    pageCount: 256,
+    mood: ['Challenging', 'Inspiring', 'Provocative'],
+    isbn: '9781454900679'
+  },
+  {
     id: '1',
     title: 'The Midnight Library',
     author: 'Matt Haig',
@@ -89,6 +103,30 @@ export const sampleBooks: Book[] = [
 ]
 
 export const sampleReviews: Review[] = [
+  {
+    id: 'r9',
+    bookId: '9',
+    userId: 'u9',
+    userName: 'Book Reviewer',
+    userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100',
+    rating: 5,
+    title: 'A Challenging and Illuminating Work on Freedom and Success',
+    content: 'Outwitting the Devil is one of Napoleon Hill\'s most unconventional and provocative works, a book that departs sharply from traditional self-help instruction and instead presents its ideas through an extended philosophical dialogue. Written in 1938 but unpublished for decades due to its controversial content, the book reads as both a product of its time and a strikingly modern inquiry into fear, habit, and personal freedom. Structured as a fictional interrogation, the narrative centers on Hill\'s imagined conversation with the Devil, a symbolic embodiment of fear, doubt, and social conditioning. Through this device, Hill explores the forces that keep individuals trapped in mediocrity—chief among them "drifting," a state of mental passivity in which people surrender independent thought and allow circumstance, fear, and habit to dictate their lives. The book\'s central argument is stark and uncompromising: most human suffering and failure stem not from lack of opportunity, but from a failure to think deliberately. Hill portrays fear—particularly fear of criticism, poverty, illness, and death—as the Devil\'s primary weapon, one that operates most effectively when individuals fail to recognize it. Education systems, religious institutions, economic structures, and cultural norms are examined critically, not as inherently corrupt, but as mechanisms that can reinforce conformity and discourage independent reasoning. Hill\'s prose is direct and insistent, often bordering on confrontational. Unlike the polished optimism of Think and Grow Rich, Outwitting the Devil adopts a sharper, more philosophical tone, pressing the reader to examine uncomfortable truths about responsibility and self-deception. The dialogue format allows Hill to dramatize abstract ideas, transforming psychological concepts into moral and intellectual challenges. At times, the book\'s arguments feel sweeping, and its claims—particularly regarding institutions and societal control—may strike modern readers as overstated or overly simplistic. Yet its power lies not in empirical precision, but in its ability to provoke self-examination. Hill\'s insistence on definiteness of purpose, self-discipline, and mastery over one\'s thoughts remains resonant, particularly in an age marked by distraction and passive consumption. Outwitting the Devil is not a gentle guide to success, nor does it offer step-by-step formulas. Instead, it functions as a warning and a call to consciousness, urging readers to reclaim authorship over their own minds. For those willing to engage critically and reflect deeply, it is a challenging and illuminating work—one that exposes freedom and success as inner achievements before they are external ones.',
+    helpfulCount: 458,
+    createdAt: '2024-01-20',
+    pros: [
+      'Provocative philosophical dialogue format',
+      'Challenges conventional thinking about success and freedom',
+      'Direct and confrontational prose that demands self-examination',
+      'Concept of "drifting" is powerfully relevant today',
+      'Explores fear as the root of mediocrity and failure'
+    ],
+    cons: [
+      'Some arguments may feel overstated or simplistic',
+      'Less formulaic than traditional self-help books',
+      'Controversial content may not resonate with all readers'
+    ]
+  },
   {
     id: 'r1',
     bookId: '1',

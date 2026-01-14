@@ -1,6 +1,6 @@
 # BookWise - Modern Book Review & Discussion Platform
 
-[![Production](https://img.shields.io/badge/Live-bookwise--wine.vercel.app-success)](https://bookwise-wine.vercel.app)
+[![Production](https://img.shields.io/badge/Live-bookwise--kimotho.vercel.app-success)](https://bookwise-kimotho.vercel.app)
 
 
 ![BookWise](https://images.unsplash.com/photo-1512820790803-83ca734da794?w=1200&h=400&fit=crop)
