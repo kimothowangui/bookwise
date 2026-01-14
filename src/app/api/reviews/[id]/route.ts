@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { updateReviewSchema } from '@/lib/validations'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { checkReadOnlyMode } from '@/lib/read-only'
 
 // GET /api/reviews/[id] - Get a single review
 export async function GET(
@@ -50,6 +51,9 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.id) {
@@ -119,6 +123,9 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.id) {

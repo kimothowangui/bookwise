@@ -4,6 +4,7 @@ import { updateBookSchema } from '@/lib/validations'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { requireAdmin } from '@/lib/admin'
+import { checkReadOnlyMode } from '@/lib/read-only'
 
 // GET /api/books/[id] - Get a single book with reviews
 export async function GET(
@@ -64,6 +65,9 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     // Check if user is admin
     await requireAdmin();
 
@@ -113,6 +117,9 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     // Check if user is admin
     await requireAdmin();
 

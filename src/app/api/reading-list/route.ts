@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { addToReadingListSchema } from '@/lib/validations'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { checkReadOnlyMode } from '@/lib/read-only'
 
 // GET /api/reading-list - Get user's reading list
 export async function GET(request: Request) {
@@ -48,6 +49,9 @@ export async function GET(request: Request) {
 // POST /api/reading-list - Add book to reading list
 export async function POST(request: Request) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.id) {

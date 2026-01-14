@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { createReviewSchema } from '@/lib/validations'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { checkReadOnlyMode } from '@/lib/read-only'
 
 // GET /api/reviews - Get all reviews with optional filters
 export async function GET(request: Request) {
@@ -70,6 +71,9 @@ export async function GET(request: Request) {
 // POST /api/reviews - Create a new review
 export async function POST(request: Request) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.id) {

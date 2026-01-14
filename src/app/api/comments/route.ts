@@ -3,10 +3,14 @@ import { prisma } from '@/lib/prisma'
 import { createCommentSchema } from '@/lib/validations'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { checkReadOnlyMode } from '@/lib/read-only'
 
 // POST /api/comments - Create a new comment
 export async function POST(request: Request) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.id) {

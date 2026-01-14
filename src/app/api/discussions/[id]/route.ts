@@ -4,6 +4,7 @@ import { updateDiscussionSchema } from '@/lib/validations'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { isAdmin } from '@/lib/admin'
+import { checkReadOnlyMode } from '@/lib/read-only'
 
 // GET /api/discussions/[id] - Get a single discussion with comments
 export async function GET(
@@ -85,6 +86,9 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.id) {
@@ -154,6 +158,9 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.id) {

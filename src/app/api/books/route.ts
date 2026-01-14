@@ -4,6 +4,7 @@ import { createBookSchema } from '@/lib/validations'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { requireAdmin } from '@/lib/admin'
+import { checkReadOnlyMode } from '@/lib/read-only'
 
 // GET /api/books - Get all books with optional filters
 export async function GET(request: Request) {
@@ -70,6 +71,9 @@ export async function GET(request: Request) {
 // POST /api/books - Create a new book (admin only)
 export async function POST(request: Request) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     // Check if user is admin
     await requireAdmin();
 

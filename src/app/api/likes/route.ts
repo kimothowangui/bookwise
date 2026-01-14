@@ -2,10 +2,14 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { checkReadOnlyMode } from '@/lib/read-only'
 
 // POST /api/likes - Toggle like on review or discussion
 export async function POST(request: Request) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.id) {

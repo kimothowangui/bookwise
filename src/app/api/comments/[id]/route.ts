@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { checkReadOnlyMode } from '@/lib/read-only'
 
 // PATCH /api/comments/[id] - Update a comment
 export async function PATCH(
@@ -9,6 +10,9 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.id) {
@@ -76,6 +80,9 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Check read-only mode first
+    checkReadOnlyMode();
+    
     const session = await getServerSession(authOptions)
 
     if (!session?.user?.id) {
